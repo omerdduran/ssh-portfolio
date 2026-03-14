@@ -14,10 +14,16 @@ import (
 	"charm.land/wish/v2/bubbletea"
 	"charm.land/wish/v2/logging"
 
+	"github.com/omerdduran/ssh-portfolio/internal/content"
 	"github.com/omerdduran/ssh-portfolio/internal/ui"
 )
 
 func main() {
+	// Warm the content cache before accepting connections
+	log.Println("Pre-fetching portfolio content...")
+	content.Warm()
+	log.Println("Content ready")
+
 	srv, err := wish.NewServer(
 		wish.WithAddress("0.0.0.0:23234"),
 		wish.WithHostKeyPath(".ssh/id_ed25519"),

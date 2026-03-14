@@ -1,0 +1,29 @@
+[
+  {
+    "slug": "2024-08-15-keyboard-shortcuts",
+    "title": "Added keyboard shortcuts modal",
+    "date": "2024-08-15T00:00:00.000Z",
+    "summary": "Launched quick navigation shortcuts and a modal so power users can jump between sections without reaching for the mouse.",
+    "tags": ["ux", "accessibility"],
+    "highlight": true,
+    "body": "Introduced KeyboardNav modal with `?` shortcut, added instant navigation combos (`g h`, `g b`, `g p`) and `t` to toggle color theme."
+  },
+  {
+    "slug": "2024-07-02-karakeep-bookmarks",
+    "title": "Launched dynamic bookmarks page",
+    "date": "2024-07-02T00:00:00.000Z",
+    "summary": "Hooked the site to Karakeep so freshly saved resources sync straight into a new bookmarks gallery.",
+    "tags": ["integration", "feature"],
+    "highlight": false,
+    "body": "Built `/bookmarks` with live Karakeep API data and smart caching headers, added category sections mapped to reading lists."
+  },
+  {
+    "slug": "2024-06-12-astro-upgrade",
+    "title": "Astro upgrade & performance audit",
+    "date": "2024-06-12T00:00:00.000Z",
+    "summary": "Upgraded Astro and tightened build tooling which shaved ~12% off bundle size.",
+    "tags": ["performance", "tooling"],
+    "highlight": false,
+    "body": "Bumped Astro to latest minor, regenerated lockfile, added automatic link hover effects and smoother page transitions."
+  }
+]

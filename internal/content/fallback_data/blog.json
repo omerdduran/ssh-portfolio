@@ -1,0 +1,26 @@
+[
+  {
+    "slug": "tech-stack",
+    "title": "My Current Tech Stack",
+    "description": "The tech enthusiast's preferences for software and hardware with a focus on efficiency and security.",
+    "date": "2025-06-02T00:00:00.000Z",
+    "tags": [],
+    "body": "## Software\n\n- **Ghostty** — Terminal emulator\n- **Obsidian** — Note-taking\n- **Strongbox** — Password manager\n- **Mullvad** — VPN\n- **NextDNS** — DNS filtering\n- **VeraCrypt** — Disk encryption\n- **Firefox** — Browser\n- **Hoarder** — Bookmarks"
+  },
+  {
+    "slug": "open-source-contributions",
+    "title": "My Open Source Contributions",
+    "description": "An overview of the open-source projects I've contributed to and my general approach to open-source.",
+    "date": "2025-06-01T00:00:00.000Z",
+    "tags": [],
+    "body": "## Contributions\n\nTurkish translations for: exif-cleaner-gui, pv (Pipe Viewer), Hurry Curry!, EcoCalc, EcoTrek, and OpenStreetMap Wiki."
+  },
+  {
+    "slug": "leetcode-daily-log",
+    "title": "My LeetCode Daily Log",
+    "description": "A living, single-page journal of the LeetCode problems I solve each day.",
+    "date": "2025-06-05T00:00:00.000Z",
+    "tags": ["leetcode", "algorithms", "learning"],
+    "body": "Keeping track of my progress helps me spot patterns, measure consistency.\nEach entry expands to reveal the approach, key takeaways, and a reference implementation."
+  }
+]

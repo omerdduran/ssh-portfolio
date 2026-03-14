@@ -1,0 +1,47 @@
+[
+  {
+    "slug": "photoprism",
+    "company": "PhotoPrism",
+    "role": "Front-End Developer",
+    "dateStart": "2024-12-01T00:00:00.000Z",
+    "dateEnd": "Current",
+    "companyUrl": "https://www.photoprism.app/",
+    "body": "Remote-first team. Built/maintained Vue.js components, refreshed documentation, supported open-source community. Migrated testing stack from Mocha/Karma/Chai to Vitest."
+  },
+  {
+    "slug": "hurkirpi",
+    "company": "Hür Kirpi",
+    "role": "Member",
+    "dateStart": "2024-09-10T00:00:00.000Z",
+    "dateEnd": "Current",
+    "companyUrl": "https://www.hurkirpi.org/",
+    "body": "Managing diverse range of technologies, active website development, design support, technical assistance."
+  },
+  {
+    "slug": "open-source",
+    "company": "Open Source",
+    "role": "Contributor",
+    "dateStart": "2024-06-01T00:00:00.000Z",
+    "dateEnd": "Current",
+    "companyUrl": "",
+    "body": "Contributing to open source projects, focus on localization and Turkish translations."
+  },
+  {
+    "slug": "freelance",
+    "company": "Freelancer",
+    "role": "Front-End Developer",
+    "dateStart": "2021-02-01T00:00:00.000Z",
+    "dateEnd": "Current",
+    "companyUrl": "",
+    "body": "Modern web/mobile development with Next.js, React, React Native, Astro.js, WordPress, Figma, Vitest, SQLite."
+  },
+  {
+    "slug": "evrimagaci",
+    "company": "Evrim Ağacı",
+    "role": "Technology Coordinator",
+    "dateStart": "2021-06-01T00:00:00.000Z",
+    "dateEnd": "2023-02-02T00:00:00.000Z",
+    "companyUrl": "https://evrimagaci.org/",
+    "body": "Designed and coded club website, developed web-based ticket reading system for 600-person event, created personalized event tickets with email distribution."
+  }
+]

@@ -1,0 +1,92 @@
+[
+  {
+    "slug": "better-start",
+    "title": "Better Start",
+    "description": "A minimal, keyboard-focused new tab extension for Chrome and Firefox with a command grid, smart search, clock, weather, and elegant customization options.",
+    "date": "2025-12-18T00:00:00.000Z",
+    "demoURL": "https://chromewebstore.google.com/detail/ilnagcflpnafjkihcdeeeendjpoghlab",
+    "repoURL": "https://github.com/omerduran/better-start",
+    "tags": [],
+    "body": "A distraction-free new tab extension with quick commands, smart search, clock widget, weather widget, themes & customization.\n\n**Tech:** Vanilla JavaScript, Web Components, Shadow DOM, CSS Variables, Chrome Manifest V3, Firefox Manifest V2."
+  },
+  {
+    "slug": "nqueen",
+    "title": "N-Queens: A Comparative Algorithm Analysis in Go",
+    "description": "An implementation and performance comparison of four distinct algorithms to solve the N-Queens problem.",
+    "date": "2025-06-27T00:00:00.000Z",
+    "demoURL": "",
+    "repoURL": "https://github.com/omerdduran/n-queens-algorithms-go",
+    "tags": [],
+    "body": "Implements four algorithms: Exhaustive Search (Backtracking), Greedy Hill Climbing, Simulated Annealing, and Genetic Algorithm.\n\n**Tech:** Go, Standard Library."
+  },
+  {
+    "slug": "riskfactor-heart",
+    "title": "Cleveland Heart Disease Prediction with Logistic Regression",
+    "description": "A comprehensive machine learning project that predicts heart disease using the validated Cleveland Heart Disease dataset with 82.1% accuracy.",
+    "date": "2025-07-03T00:00:00.000Z",
+    "demoURL": "",
+    "repoURL": "https://github.com/omerdduran/riskfactor-heart",
+    "tags": [],
+    "body": "82.1% accuracy, 84.2% F1-score. Dataset: 920 patients, 16 original features.\n\n**Key features:** High accuracy, real medical data, robust preprocessing, feature engineering (20+ features)."
+  },
+  {
+    "slug": "turk-adfilter",
+    "title": "Turk-AdFilter: Turkish Ad & Tracker Blocking List",
+    "description": "The most up-to-date list of Turkish ads to block ads on Turkish websites",
+    "date": "2025-05-10T00:00:00.000Z",
+    "demoURL": "https://www.reklamsiz-turkiye.com/",
+    "repoURL": "https://github.com/omerdduran/turk-adfilter",
+    "tags": [],
+    "body": "Community-based, open-source filter list. Turkey-focused, continuously updated, compatible with uBlock Origin/AdGuard/Pi-hole."
+  },
+  {
+    "slug": "hur-kirpi",
+    "title": "Hür Kirpi Website",
+    "description": "Hür Kirpi is a platform of thought that aims to defend freedoms and expand these areas of freedom.",
+    "date": "2024-11-01T00:00:00.000Z",
+    "demoURL": "https://www.hurkirpi.com",
+    "repoURL": "",
+    "tags": [],
+    "body": "Technologies: Astro, MDX, Sitemap, Tailwind CSS, TypeScript, Prettier, Lucide React."
+  },
+  {
+    "slug": "heat-solver",
+    "title": "Heat Solver Project",
+    "description": "A efficient C++ heat equation solver with both serial and parallel implementations",
+    "date": "2024-09-24T00:00:00.000Z",
+    "demoURL": "",
+    "repoURL": "https://github.com/omerdduran/ParallelHeatEquationSolver",
+    "tags": [],
+    "body": "Serial and parallel implementations with OpenMP support.\n\n**Tech:** C++, OpenMP, Devbox."
+  },
+  {
+    "slug": "purest-picks",
+    "title": "Purest Picks",
+    "description": "Discover the essence of minimalism at Purest Picks.",
+    "date": "2024-06-28T00:00:00.000Z",
+    "demoURL": "https://purestpicks.com",
+    "repoURL": "https://github.com/omerdduran/PurestPicks",
+    "tags": [],
+    "body": "100/100 Lighthouse performance, Responsive, Accessible, SEO-friendly.\n\n**Tech:** HTML5, Tailwind CSS, JavaScript (ES6+), Vite."
+  },
+  {
+    "slug": "yatirim-bot",
+    "title": "Yatırım Bot | @yatirimhaberi",
+    "description": "Yatırım Bot is a Python-based project designed to automate the sharing of financial updates on Twitter.",
+    "date": "2024-06-11T00:00:00.000Z",
+    "demoURL": "",
+    "repoURL": "https://github.com/Descite-Co/yatirimbot",
+    "tags": [],
+    "body": "Python-based project for automating financial updates on Twitter. Covers BIST, crypto, gold, silver, exchange rates."
+  },
+  {
+    "slug": "shipping-cost-calculator",
+    "title": "Shipping Cost Calculator",
+    "description": "A Java-based shipping cost optimization system for calculating the most cost-effective container combinations",
+    "date": "2024-06-11T00:00:00.000Z",
+    "demoURL": "",
+    "repoURL": "https://codeberg.org/omerdduran/ShippingCompHW",
+    "tags": [],
+    "body": "**Tech:** Java, JDK 17+. Supports Small Container and Big Container types with weight-based pricing."
+  }
+]
