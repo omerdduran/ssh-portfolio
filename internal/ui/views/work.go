@@ -44,7 +44,7 @@ func formatWorkDate(s string) string {
 	return t.Format("Jan 2006")
 }
 
-func WorkView(entries []content.WorkEntry, scrollOffset, width, height int) string {
+func WorkView(entries []content.WorkEntry, scrollOffset, width, height int, activeUsers int64) string {
 	header := components.Header("  Work Experience", width)
 
 	var lines []string
@@ -107,7 +107,7 @@ func WorkView(entries []content.WorkEntry, scrollOffset, width, height int) stri
 		{Key: "g/G", Desc: "top/bottom"},
 		{Key: "esc", Desc: "back"},
 		{Key: "q", Desc: "quit"},
-	}, width)
+	}, width, activeUsers)
 
 	return lipgloss.JoinVertical(lipgloss.Left, header, body, footer)
 }

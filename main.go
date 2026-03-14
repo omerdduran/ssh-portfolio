@@ -15,8 +15,17 @@ import (
 	"charm.land/wish/v2/logging"
 
 	"github.com/omerdduran/ssh-portfolio/internal/content"
+	"github.com/omerdduran/ssh-portfolio/internal/stats"
 	"github.com/omerdduran/ssh-portfolio/internal/ui"
 )
+
+func statsMiddleware(next cssh.Handler) cssh.Handler {
+	return func(s cssh.Session) {
+		stats.Global.Connect()
+		defer stats.Global.Disconnect()
+		next(s)
+	}
+}
 
 func main() {
 	// Warm the content cache before accepting connections
@@ -30,6 +39,7 @@ func main() {
 		wish.WithMiddleware(
 			bubbletea.Middleware(ui.TeaHandler),
 			activeterm.Middleware(),
+			statsMiddleware,
 			logging.Middleware(),
 		),
 	)

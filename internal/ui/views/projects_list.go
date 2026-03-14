@@ -12,7 +12,7 @@ var (
 	projIndicatorStyle = lipgloss.NewStyle().Foreground(lipgloss.Color("#8be9fd"))
 )
 
-func ProjectsListView(projects []content.Project, cursor int, width, height int) string {
+func ProjectsListView(projects []content.Project, cursor int, width, height int, activeUsers int64) string {
 	header := components.Header("  Projects", width)
 
 	var lines []string
@@ -52,7 +52,7 @@ func ProjectsListView(projects []content.Project, cursor int, width, height int)
 		{Key: "enter", Desc: "details"},
 		{Key: "esc", Desc: "back"},
 		{Key: "q", Desc: "quit"},
-	}, width)
+	}, width, activeUsers)
 
 	bodyHeight := height - 2
 	body := lipgloss.NewStyle().Width(width).Height(bodyHeight).Render(contentStr)

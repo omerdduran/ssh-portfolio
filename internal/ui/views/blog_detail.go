@@ -27,7 +27,7 @@ var (
 			Foreground(lipgloss.Color("#44475a"))
 )
 
-func BlogDetailView(post content.BlogPost, scrollOffset, width, height int) string {
+func BlogDetailView(post content.BlogPost, scrollOffset, width, height int, activeUsers int64) string {
 	header := components.Header("  Blog › "+post.Title, width)
 
 	contentWidth := width - 4
@@ -93,7 +93,7 @@ func BlogDetailView(post content.BlogPost, scrollOffset, width, height int) stri
 		{Key: "g/G", Desc: "top/bottom"},
 		{Key: "esc", Desc: "back"},
 		{Key: "q", Desc: "quit" + scrollInfo},
-	}, width)
+	}, width, activeUsers)
 
 	return lipgloss.JoinVertical(lipgloss.Left, header, body, footer)
 }

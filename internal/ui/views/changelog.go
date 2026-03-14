@@ -46,7 +46,7 @@ func formatChangelogDate(s string) string {
 	return t.Format("Jan 02, 2006")
 }
 
-func ChangelogView(entries []content.ChangelogEntry, scrollOffset, width, height int) string {
+func ChangelogView(entries []content.ChangelogEntry, scrollOffset, width, height int, activeUsers int64) string {
 	header := components.Header("  Changelog", width)
 
 	var lines []string
@@ -111,7 +111,7 @@ func ChangelogView(entries []content.ChangelogEntry, scrollOffset, width, height
 		{Key: "g/G", Desc: "top/bottom"},
 		{Key: "esc", Desc: "back"},
 		{Key: "q", Desc: "quit"},
-	}, width)
+	}, width, activeUsers)
 
 	return lipgloss.JoinVertical(lipgloss.Left, header, body, footer)
 }

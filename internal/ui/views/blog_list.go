@@ -24,7 +24,7 @@ var (
 				Bold(true)
 )
 
-func BlogListView(posts []content.BlogPost, cursor int, width, height int) string {
+func BlogListView(posts []content.BlogPost, cursor int, width, height int, activeUsers int64) string {
 	header := components.Header("  Blog", width)
 
 	var lines []string
@@ -59,7 +59,7 @@ func BlogListView(posts []content.BlogPost, cursor int, width, height int) strin
 		{Key: "enter", Desc: "read"},
 		{Key: "esc", Desc: "back"},
 		{Key: "q", Desc: "quit"},
-	}, width)
+	}, width, activeUsers)
 
 	bodyHeight := height - 2
 	body := lipgloss.NewStyle().Width(width).Height(bodyHeight).Render(contentStr)

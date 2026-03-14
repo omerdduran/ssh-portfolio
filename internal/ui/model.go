@@ -7,6 +7,7 @@ import (
 	"github.com/charmbracelet/ssh"
 	"github.com/charmbracelet/x/ansi"
 	"github.com/omerdduran/ssh-portfolio/internal/content"
+	"github.com/omerdduran/ssh-portfolio/internal/stats"
 	"github.com/omerdduran/ssh-portfolio/internal/ui/views"
 )
 
@@ -21,6 +22,7 @@ const (
 	PageProjectDetail
 	PageWork
 	PageChangelog
+	PageStats
 )
 
 type Model struct {
@@ -35,6 +37,7 @@ type Model struct {
 
 	content *content.SiteContent
 	rain    RainState
+	stats   *stats.Stats
 }
 
 func TeaHandler(s ssh.Session) (tea.Model, []tea.ProgramOption) {
@@ -46,6 +49,7 @@ func TeaHandler(s ssh.Session) (tea.Model, []tea.ProgramOption) {
 		page:    PageHome,
 		content: content.Get(),
 		rain:    newRainState(pty.Window.Width, pty.Window.Height),
+		stats:   stats.Global,
 	}
 	return m, nil
 }
@@ -96,7 +100,7 @@ func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 					m.menuCursor--
 				}
 			case code == 'j' || code == tea.KeyDown:
-				if m.menuCursor < 3 {
+				if m.menuCursor < 4 {
 					m.menuCursor++
 				}
 			case code == tea.KeyEnter:
@@ -111,6 +115,8 @@ func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 					m.page = PageWork
 				case 3:
 					m.page = PageChangelog
+				case 4:
+					m.page = PageStats
 				}
 			case isBack:
 				m.page = PageHome
@@ -165,7 +171,7 @@ func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 				m.listCursor = 0
 			}
 
-		case PageBlogDetail, PageProjectDetail, PageWork, PageChangelog:
+		case PageBlogDetail, PageProjectDetail, PageWork, PageChangelog, PageStats:
 			switch {
 			case code == 'k' || code == tea.KeyUp:
 				if m.scrollOffset > 0 {
@@ -184,7 +190,7 @@ func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 					m.page = PageBlogList
 				case PageProjectDetail:
 					m.page = PageProjectsList
-				case PageWork, PageChangelog:
+				case PageWork, PageChangelog, PageStats:
 					m.page = PageMenu
 				}
 			}
@@ -195,6 +201,7 @@ func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 
 func (m Model) View() tea.View {
 	var screen string
+	activeUsers := m.stats.Active()
 
 	switch m.page {
 	case PageHome:
@@ -206,30 +213,34 @@ func (m Model) View() tea.View {
 			{Title: "Projects", Desc: "Software I've built", Count: len(m.content.Projects)},
 			{Title: "Work", Desc: "Professional experience", Count: len(m.content.Work)},
 			{Title: "Changelog", Desc: "What's new on the site", Count: len(m.content.Changelog)},
+			{Title: "Stats", Desc: "Visitor statistics", Count: 0},
 		}
-		screen = views.MenuView(items, m.menuCursor, m.width, m.height)
+		screen = views.MenuView(items, m.menuCursor, m.width, m.height, activeUsers)
 
 	case PageBlogList:
-		screen = views.BlogListView(m.content.Blog, m.listCursor, m.width, m.height)
+		screen = views.BlogListView(m.content.Blog, m.listCursor, m.width, m.height, activeUsers)
 
 	case PageBlogDetail:
 		if m.listCursor < len(m.content.Blog) {
-			screen = views.BlogDetailView(m.content.Blog[m.listCursor], m.scrollOffset, m.width, m.height)
+			screen = views.BlogDetailView(m.content.Blog[m.listCursor], m.scrollOffset, m.width, m.height, activeUsers)
 		}
 
 	case PageProjectsList:
-		screen = views.ProjectsListView(m.content.Projects, m.listCursor, m.width, m.height)
+		screen = views.ProjectsListView(m.content.Projects, m.listCursor, m.width, m.height, activeUsers)
 
 	case PageProjectDetail:
 		if m.listCursor < len(m.content.Projects) {
-			screen = views.ProjectDetailView(m.content.Projects[m.listCursor], m.scrollOffset, m.width, m.height)
+			screen = views.ProjectDetailView(m.content.Projects[m.listCursor], m.scrollOffset, m.width, m.height, activeUsers)
 		}
 
 	case PageWork:
-		screen = views.WorkView(m.content.Work, m.scrollOffset, m.width, m.height)
+		screen = views.WorkView(m.content.Work, m.scrollOffset, m.width, m.height, activeUsers)
 
 	case PageChangelog:
-		screen = views.ChangelogView(m.content.Changelog, m.scrollOffset, m.width, m.height)
+		screen = views.ChangelogView(m.content.Changelog, m.scrollOffset, m.width, m.height, activeUsers)
+
+	case PageStats:
+		screen = views.StatsView(activeUsers, m.stats.Total(), m.scrollOffset, m.width, m.height)
 	}
 
 	v := tea.NewView(screen)

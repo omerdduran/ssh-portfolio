@@ -15,7 +15,7 @@ var (
 			Underline(true)
 )
 
-func ProjectDetailView(proj content.Project, scrollOffset, width, height int) string {
+func ProjectDetailView(proj content.Project, scrollOffset, width, height int, activeUsers int64) string {
 	header := components.Header("  Projects › "+proj.Title, width)
 
 	contentWidth := width - 4
@@ -87,7 +87,7 @@ func ProjectDetailView(proj content.Project, scrollOffset, width, height int) st
 		{Key: "g/G", Desc: "top/bottom"},
 		{Key: "esc", Desc: "back"},
 		{Key: "q", Desc: "quit" + scrollInfo},
-	}, width)
+	}, width, activeUsers)
 
 	return lipgloss.JoinVertical(lipgloss.Left, header, body, footer)
 }

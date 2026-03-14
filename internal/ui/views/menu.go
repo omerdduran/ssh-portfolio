@@ -31,7 +31,7 @@ type MenuItem struct {
 	Count int
 }
 
-func MenuView(items []MenuItem, cursor int, width, height int) string {
+func MenuView(items []MenuItem, cursor int, width, height int, activeUsers int64) string {
 	header := components.Header("  Ömer Duran — Portfolio", width)
 
 	var lines []string
@@ -58,7 +58,7 @@ func MenuView(items []MenuItem, cursor int, width, height int) string {
 		{Key: "↓/j", Desc: "down"},
 		{Key: "enter", Desc: "select"},
 		{Key: "q", Desc: "quit"},
-	}, width)
+	}, width, activeUsers)
 
 	// Fill available space
 	bodyHeight := height - 2 // header + footer
