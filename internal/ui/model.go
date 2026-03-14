@@ -1,8 +1,11 @@
 package ui
 
 import (
+	"strings"
+
 	tea "charm.land/bubbletea/v2"
 	"github.com/charmbracelet/ssh"
+	"github.com/charmbracelet/x/ansi"
 	"github.com/omerdduran/ssh-portfolio/internal/content"
 	"github.com/omerdduran/ssh-portfolio/internal/ui/views"
 )
@@ -31,6 +34,7 @@ type Model struct {
 	scrollOffset int
 
 	content *content.SiteContent
+	rain    RainState
 }
 
 func TeaHandler(s ssh.Session) (tea.Model, []tea.ProgramOption) {
@@ -41,19 +45,28 @@ func TeaHandler(s ssh.Session) (tea.Model, []tea.ProgramOption) {
 		user:    s.User(),
 		page:    PageHome,
 		content: content.Get(),
+		rain:    newRainState(pty.Window.Width, pty.Window.Height),
 	}
 	return m, nil
 }
 
 func (m Model) Init() tea.Cmd {
-	return nil
+	return rainTick()
 }
 
 func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	switch msg := msg.(type) {
+	case RainTickMsg:
+		if m.page == PageHome {
+			m.rain.update()
+			return m, rainTick()
+		}
+		return m, nil
+
 	case tea.WindowSizeMsg:
 		m.width = msg.Width
 		m.height = msg.Height
+		m.rain.resize(msg.Width, msg.Height)
 
 	case tea.KeyPressMsg:
 		code := msg.Code
@@ -101,6 +114,7 @@ func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 				}
 			case isBack:
 				m.page = PageHome
+				return m, rainTick()
 			}
 
 		case PageBlogList:
@@ -184,7 +198,7 @@ func (m Model) View() tea.View {
 
 	switch m.page {
 	case PageHome:
-		screen = views.HomeView(m.user, m.width, m.height)
+		screen = m.homeWithRain()
 
 	case PageMenu:
 		items := []views.MenuItem{
@@ -221,4 +235,81 @@ func (m Model) View() tea.View {
 	v := tea.NewView(screen)
 	v.AltScreen = true
 	return v
+}
+
+func (m Model) homeWithRain() string {
+	if m.width <= 0 || m.height <= 0 {
+		return ""
+	}
+
+	// Get the card (uncentered)
+	card := views.HomeCard(m.user, m.width)
+	cardLines := strings.Split(card, "\n")
+
+	// Measure card dimensions using display width
+	cardH := len(cardLines)
+	cardW := 0
+	for _, line := range cardLines {
+		w := ansi.StringWidth(line)
+		if w > cardW {
+			cardW = w
+		}
+	}
+
+	// Center position
+	cardLeft := (m.width - cardW) / 2
+	cardTop := (m.height - cardH) / 2
+	if cardLeft < 0 {
+		cardLeft = 0
+	}
+	if cardTop < 0 {
+		cardTop = 0
+	}
+
+	// Get rain grid
+	rainGrid := m.rain.renderGrid()
+
+	// Composite rain + card
+	lines := make([]string, m.height)
+	for r := 0; r < m.height; r++ {
+		if r < cardTop || r >= cardTop+cardH {
+			// Full rain line
+			if r < len(rainGrid) {
+				lines[r] = renderRainLine(rainGrid[r])
+			} else {
+				lines[r] = strings.Repeat(" ", m.width)
+			}
+		} else {
+			// Card row — composite: rain | card | rain
+			cardRow := r - cardTop
+			cardLine := ""
+			if cardRow < len(cardLines) {
+				cardLine = cardLines[cardRow]
+			}
+
+			var sb strings.Builder
+
+			// Left rain margin
+			if r < len(rainGrid) {
+				for c := 0; c < cardLeft && c < len(rainGrid[r]); c++ {
+					sb.WriteString(rainGrid[r][c])
+				}
+			}
+
+			// Card content
+			sb.WriteString(cardLine)
+
+			// Right rain margin
+			cardRight := cardLeft + cardW
+			if r < len(rainGrid) {
+				for c := cardRight; c < m.width && c < len(rainGrid[r]); c++ {
+					sb.WriteString(rainGrid[r][c])
+				}
+			}
+
+			lines[r] = sb.String()
+		}
+	}
+
+	return strings.Join(lines, "\n")
 }
