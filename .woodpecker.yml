@@ -1,0 +1,39 @@
+when:
+  - event: push
+    branch: [release, develop]
+
+variables:
+  docker_image: &docker_image docker:28-cli
+  shared_volumes: &shared_volumes
+    - /var/run/docker.sock:/var/run/docker.sock
+    - /opt/ssh-portfolio:/opt/ssh-portfolio
+
+steps:
+  build:
+    image: *docker_image
+    volumes: *shared_volumes
+    commands:
+      - |
+        if [ "$CI_COMMIT_BRANCH" = "release" ]; then
+          TAG="release"
+        else
+          TAG="preview"
+        fi
+      - echo "Building ssh-portfolio:$TAG"
+      - docker build -t "ssh-portfolio:$TAG" .
+
+  deploy:
+    image: *docker_image
+    volumes: *shared_volumes
+    commands:
+      - |
+        if [ "$CI_COMMIT_BRANCH" = "release" ]; then
+          TARGET="/opt/ssh-portfolio/prod"
+        else
+          TARGET="/opt/ssh-portfolio/preview"
+        fi
+      - echo "Deploying in $TARGET"
+      - cd "$TARGET"
+      - docker compose up -d
+      - docker image prune -f
+    depends_on: [build]
