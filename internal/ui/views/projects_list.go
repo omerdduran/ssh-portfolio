@@ -27,16 +27,16 @@ func ProjectsListView(projects []content.Project, cursor int, width, height int,
 		}
 
 		if i == cursor {
-			lines = append(lines, menuSelectedStyle.Render("▸ ")+blogSelectedTitleStyle.Render(p.Title)+indicators)
+			lines = append(lines, menuSelectedStyle.Render("▸ ")+listSelectedTitleStyle.Render(p.Title)+indicators)
 		} else {
-			lines = append(lines, menuItemStyle.Render("  ")+blogTitleStyle.Render(p.Title)+indicators)
+			lines = append(lines, menuItemStyle.Render("  ")+listTitleStyle.Render(p.Title)+indicators)
 		}
 
 		desc := p.Description
 		if len(desc) > 80 {
 			desc = desc[:77] + "..."
 		}
-		lines = append(lines, blogDescStyle.Render(desc))
+		lines = append(lines, listDescStyle.Render(desc))
 		lines = append(lines, "")
 	}
 

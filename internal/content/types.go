@@ -2,15 +2,6 @@ package content
 
 import "time"
 
-type BlogPost struct {
-	Slug        string   `json:"slug"`
-	Title       string   `json:"title"`
-	Description string   `json:"description"`
-	Date        time.Time `json:"date"`
-	Tags        []string `json:"tags"`
-	Body        string   `json:"body"`
-}
-
 type Project struct {
 	Slug        string    `json:"slug"`
 	Title       string    `json:"title"`
@@ -32,19 +23,7 @@ type WorkEntry struct {
 	Body       string `json:"body"`
 }
 
-type ChangelogEntry struct {
-	Slug      string   `json:"slug"`
-	Title     string   `json:"title"`
-	Date      string   `json:"date"`
-	Summary   string   `json:"summary"`
-	Tags      []string `json:"tags"`
-	Highlight bool     `json:"highlight"`
-	Body      string   `json:"body"`
-}
-
 type SiteContent struct {
-	Blog      []BlogPost       `json:"blog"`
-	Projects  []Project        `json:"projects"`
-	Work      []WorkEntry      `json:"work"`
-	Changelog []ChangelogEntry `json:"changelog"`
+	Projects []Project   `json:"projects"`
+	Work     []WorkEntry `json:"work"`
 }

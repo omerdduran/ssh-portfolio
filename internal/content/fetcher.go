@@ -24,15 +24,6 @@ func FetchAll() (*SiteContent, error) {
 	g := new(errgroup.Group)
 
 	g.Go(func() error {
-		posts, err := fetchJSON[[]BlogPost]("/api/blog.json")
-		if err != nil {
-			return fmt.Errorf("blog: %w", err)
-		}
-		sc.Blog = posts
-		return nil
-	})
-
-	g.Go(func() error {
 		projects, err := fetchJSON[[]Project]("/api/projects.json")
 		if err != nil {
 			return fmt.Errorf("projects: %w", err)
@@ -47,15 +38,6 @@ func FetchAll() (*SiteContent, error) {
 			return fmt.Errorf("work: %w", err)
 		}
 		sc.Work = work
-		return nil
-	})
-
-	g.Go(func() error {
-		changelog, err := fetchJSON[[]ChangelogEntry]("/api/changelog.json")
-		if err != nil {
-			return fmt.Errorf("changelog: %w", err)
-		}
-		sc.Changelog = changelog
 		return nil
 	})
 

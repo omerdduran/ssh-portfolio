@@ -1,13 +1,13 @@
 # ssh-portfolio
 
-A terminal portfolio served over SSH, featuring a Matrix rain animation, blog posts, projects, and work history — all rendered in your terminal.
+A terminal portfolio served over SSH, featuring a Matrix rain animation, projects, and work history — all rendered in your terminal.
 
 Built with [Wish](https://github.com/charmbracelet/wish), [Bubble Tea](https://github.com/charmbracelet/bubbletea), and [Lip Gloss](https://github.com/charmbracelet/lipgloss).
 
 ## Features
 
 - Matrix-style rain animation on the home page
-- Blog posts, projects, work experience, and changelog sections
+- Projects and work experience sections
 - Live content fetched from [omerduran.dev](https://www.omerduran.dev) with offline fallback data
 - Vim-style navigation (`j`/`k`, `g`/`G`)
 - Clickable hyperlinks (in supported terminals)
@@ -62,7 +62,7 @@ docker run -p 23234:23234 ssh-portfolio
 │       ├── rain.go          # Matrix rain animation
 │       ├── styles.go        # Shared styles
 │       ├── components/      # Header, footer, markdown renderer
-│       └── views/           # Page views (home, menu, blog, projects, work, changelog)
+│       └── views/           # Page views (home, menu, projects, work, stats)
 └── Dockerfile
 ```
 

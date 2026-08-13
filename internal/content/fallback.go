@@ -12,10 +12,8 @@ var fallbackFS embed.FS
 func LoadFallback() *SiteContent {
 	sc := &SiteContent{}
 
-	unmarshalFile("fallback_data/blog.json", &sc.Blog)
 	unmarshalFile("fallback_data/projects.json", &sc.Projects)
 	unmarshalFile("fallback_data/work.json", &sc.Work)
-	unmarshalFile("fallback_data/changelog.json", &sc.Changelog)
 
 	return sc
 }

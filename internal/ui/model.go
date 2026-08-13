@@ -16,12 +16,9 @@ type Page int
 const (
 	PageHome Page = iota
 	PageMenu
-	PageBlogList
-	PageBlogDetail
 	PageProjectsList
 	PageProjectDetail
 	PageWork
-	PageChangelog
 	PageStats
 )
 
@@ -100,7 +97,7 @@ func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 					m.menuCursor--
 				}
 			case code == 'j' || code == tea.KeyDown:
-				if m.menuCursor < 4 {
+				if m.menuCursor < 2 {
 					m.menuCursor++
 				}
 			case code == tea.KeyEnter:
@@ -108,43 +105,15 @@ func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 				m.scrollOffset = 0
 				switch m.menuCursor {
 				case 0:
-					m.page = PageBlogList
-				case 1:
 					m.page = PageProjectsList
-				case 2:
+				case 1:
 					m.page = PageWork
-				case 3:
-					m.page = PageChangelog
-				case 4:
+				case 2:
 					m.page = PageStats
 				}
 			case isBack:
 				m.page = PageHome
 				return m, rainTick()
-			}
-
-		case PageBlogList:
-			maxIdx := len(m.content.Blog) - 1
-			if maxIdx < 0 {
-				maxIdx = 0
-			}
-			switch {
-			case code == 'k' || code == tea.KeyUp:
-				if m.listCursor > 0 {
-					m.listCursor--
-				}
-			case code == 'j' || code == tea.KeyDown:
-				if m.listCursor < maxIdx {
-					m.listCursor++
-				}
-			case code == tea.KeyEnter:
-				if len(m.content.Blog) > 0 {
-					m.scrollOffset = 0
-					m.page = PageBlogDetail
-				}
-			case isBack:
-				m.page = PageMenu
-				m.listCursor = 0
 			}
 
 		case PageProjectsList:
@@ -171,7 +140,7 @@ func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 				m.listCursor = 0
 			}
 
-		case PageBlogDetail, PageProjectDetail, PageWork, PageChangelog, PageStats:
+		case PageProjectDetail, PageWork, PageStats:
 			switch {
 			case code == 'k' || code == tea.KeyUp:
 				if m.scrollOffset > 0 {
@@ -186,11 +155,9 @@ func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 			case isBack:
 				m.scrollOffset = 0
 				switch m.page {
-				case PageBlogDetail:
-					m.page = PageBlogList
 				case PageProjectDetail:
 					m.page = PageProjectsList
-				case PageWork, PageChangelog, PageStats:
+				case PageWork, PageStats:
 					m.page = PageMenu
 				}
 			}
@@ -209,21 +176,11 @@ func (m Model) View() tea.View {
 
 	case PageMenu:
 		items := []views.MenuItem{
-			{Title: "Blog", Desc: "Read my thoughts and writings", Count: len(m.content.Blog)},
 			{Title: "Projects", Desc: "Software I've built", Count: len(m.content.Projects)},
 			{Title: "Work", Desc: "Professional experience", Count: len(m.content.Work)},
-			{Title: "Changelog", Desc: "What's new on the site", Count: len(m.content.Changelog)},
 			{Title: "Stats", Desc: "Visitor statistics", Count: 0},
 		}
 		screen = views.MenuView(items, m.menuCursor, m.width, m.height, activeUsers)
-
-	case PageBlogList:
-		screen = views.BlogListView(m.content.Blog, m.listCursor, m.width, m.height, activeUsers)
-
-	case PageBlogDetail:
-		if m.listCursor < len(m.content.Blog) {
-			screen = views.BlogDetailView(m.content.Blog[m.listCursor], m.scrollOffset, m.width, m.height, activeUsers)
-		}
 
 	case PageProjectsList:
 		screen = views.ProjectsListView(m.content.Projects, m.listCursor, m.width, m.height, activeUsers)
@@ -235,9 +192,6 @@ func (m Model) View() tea.View {
 
 	case PageWork:
 		screen = views.WorkView(m.content.Work, m.scrollOffset, m.width, m.height, activeUsers)
-
-	case PageChangelog:
-		screen = views.ChangelogView(m.content.Changelog, m.scrollOffset, m.width, m.height, activeUsers)
 
 	case PageStats:
 		screen = views.StatsView(activeUsers, m.stats.Total(), m.scrollOffset, m.width, m.height)
