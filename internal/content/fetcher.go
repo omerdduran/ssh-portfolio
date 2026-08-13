@@ -2,13 +2,14 @@ package content
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
 	"io"
+	"log"
 	"net/http"
 	"os"
+	"sync"
 	"time"
-
-	"golang.org/x/sync/errgroup"
 )
 
 var baseURL = "https://www.omerduran.dev"
@@ -19,30 +20,60 @@ func init() {
 	}
 }
 
+// FetchAll loads each content type in parallel and returns whatever it managed
+// to get. One endpoint failing no longer discards the rest: this ran under an
+// errgroup before, so a single 404 aborted the whole sync and the app quietly
+// served the embedded snapshot instead — which is exactly what happened for as
+// long as /api/changelog.json was requested but never existed. An error comes
+// back only when every source failed.
 func FetchAll() (*SiteContent, error) {
 	sc := &SiteContent{}
-	g := new(errgroup.Group)
 
-	g.Go(func() error {
+	var (
+		wg   sync.WaitGroup
+		mu   sync.Mutex
+		errs []error
+	)
+
+	fetch := func(name string, load func() error) {
+		wg.Add(1)
+		go func() {
+			defer wg.Done()
+			if err := load(); err != nil {
+				mu.Lock()
+				errs = append(errs, fmt.Errorf("%s: %w", name, err))
+				mu.Unlock()
+			}
+		}()
+	}
+
+	const sources = 2
+
+	fetch("projects", func() error {
 		projects, err := fetchJSON[[]Project]("/api/projects.json")
 		if err != nil {
-			return fmt.Errorf("projects: %w", err)
+			return err
 		}
 		sc.Projects = projects
 		return nil
 	})
 
-	g.Go(func() error {
+	fetch("work", func() error {
 		work, err := fetchJSON[[]WorkEntry]("/api/work.json")
 		if err != nil {
-			return fmt.Errorf("work: %w", err)
+			return err
 		}
 		sc.Work = work
 		return nil
 	})
 
-	if err := g.Wait(); err != nil {
-		return nil, err
+	wg.Wait()
+
+	if len(errs) == sources {
+		return nil, errors.Join(errs...)
+	}
+	if len(errs) > 0 {
+		log.Printf("Content fetch partially failed: %v", errors.Join(errs...))
 	}
 	return sc, nil
 }
